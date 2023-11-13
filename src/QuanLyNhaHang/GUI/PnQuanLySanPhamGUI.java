@@ -1,6 +1,5 @@
 package QuanLyNhaHang.GUI;
 
-import QuanLyNhaHang.BUS.LoaiBUS;
 import QuanLyNhaHang.BUS.SanPhamBUS;
 import QuanLyNhaHang.DTO.SanPham;
 import static Main.Main.changLNF;
@@ -45,7 +44,6 @@ public class PnQuanLySanPhamGUI extends JPanel {
     }
 
     SanPhamBUS spBUS = new SanPhamBUS();
-    LoaiBUS loaiBUS = new LoaiBUS();
     final Color colorPanel = new Color(247, 247, 247);
     MyTable tblSanPham;
     DefaultTableModel dtmSanPham;

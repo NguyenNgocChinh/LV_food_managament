@@ -1,10 +1,8 @@
 package QuanLyNhaHang.GUI;
 
-import QuanLyNhaHang.DTO.LoaiSP;
 import QuanLyNhaHang.DTO.HoaDon;
 import QuanLyNhaHang.DTO.SanPham;
 import QuanLyNhaHang.DTO.CTHoaDon;
-import QuanLyNhaHang.BUS.LoaiBUS;
 import QuanLyNhaHang.BUS.HoaDonBUS;
 import QuanLyNhaHang.BUS.CTHoaDonBUS;
 import QuanLyNhaHang.BUS.SanPhamBUS;
@@ -29,7 +27,6 @@ import javax.swing.text.*;
 public class PnQuanLyBanHangGUI extends JPanel {
 
     private SanPhamBUS spBUS = new SanPhamBUS();
-    private LoaiBUS loaiBUS = new LoaiBUS();
     private HoaDonBUS hoaDonBUS = new HoaDonBUS();
 
     JLabel lblTabbedBanHang, lblTabbedHoaDon;

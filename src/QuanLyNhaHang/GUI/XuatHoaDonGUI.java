@@ -20,7 +20,6 @@ public class XuatHoaDonGUI extends JDialog {
 
     private HoaDonBUS hoadonBUS = new HoaDonBUS();
     private CTHoaDonBUS ctHoaDonBUS = new CTHoaDonBUS();
-    private DlgTimKhach timKhachUI = new DlgTimKhach();
 
     public XuatHoaDonGUI() {
         checkBanHang = false;
@@ -224,15 +223,6 @@ public class XuatHoaDonGUI extends JDialog {
         btnTimMaGiam.setText("...");
         btnTimMaGiam.setPreferredSize(new java.awt.Dimension(40, 28));
 
-        btnTimKhach.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnTimKhach.setText("...");
-        btnTimKhach.setPreferredSize(new java.awt.Dimension(40, 28));
-        btnTimKhach.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimKhachActionPerformed(evt);
-            }
-        });
-
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Tổng tiền");
 
@@ -311,7 +301,7 @@ public class XuatHoaDonGUI extends JDialog {
         xuLyHienThiHoaDon();
         btnInHoaDon.setEnabled(true);
 
-        hoadonBUS.luuHoaDon(DlgTimKhach.khachHangTimDuoc.getMaKH(), nhanVien, tongTien, "Đã thanh toán");
+        hoadonBUS.luuHoaDon(0, nhanVien, tongTien, "Đã thanh toán");
 
         for (Vector vec : dsGioHang) {
             String maSP = vec.get(0) + "";
@@ -336,13 +326,6 @@ public class XuatHoaDonGUI extends JDialog {
         }
     }
 
-
-    private void btnTimKhachActionPerformed(java.awt.event.ActionEvent evt) {
-        timKhachUI.setVisible(true);
-        if (timKhachUI.khachHangTimDuoc != null) {
-            txtTenKhach.setText(timKhachUI.khachHangTimDuoc.getMaKH() + " - " + timKhachUI.khachHangTimDuoc.getHo() + " " + timKhachUI.khachHangTimDuoc.getTen());
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInHoaDon;

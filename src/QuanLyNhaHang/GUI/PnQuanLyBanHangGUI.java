@@ -126,23 +126,19 @@ public class PnQuanLyBanHangGUI extends JPanel {
         dtmSanPhamBan.addColumn("Mã SP");
         dtmSanPhamBan.addColumn("Tên SP");
         dtmSanPhamBan.addColumn("Đơn giá");
-        dtmSanPhamBan.addColumn("Còn lại");
-        dtmSanPhamBan.addColumn("Đơn vị tính");
         dtmSanPhamBan.addColumn("Ảnh");
         tblBanHang = new MyTable(dtmSanPhamBan);
 
         tblBanHang.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tblBanHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tblBanHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tblBanHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
-        tblBanHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
 
         TableColumnModel columnModelBanHang = tblBanHang.getColumnModel();
         columnModelBanHang.getColumn(0).setPreferredWidth(77);
         columnModelBanHang.getColumn(1).setPreferredWidth(282);
         columnModelBanHang.getColumn(2).setPreferredWidth(82);
         columnModelBanHang.getColumn(3).setPreferredWidth(85);
-        columnModelBanHang.getColumn(4).setPreferredWidth(138);
-        columnModelBanHang.getColumn(5).setPreferredWidth(0);
 
         JScrollPane scrTblBanHang = new JScrollPane(tblBanHang);
         //</editor-fold>
@@ -198,7 +194,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
         lblLoai.setFont(font);
         cmbLoaiSPBanHang = new JComboBox<>();
         cmbLoaiSPBanHang.setFont(font);
-        loadDataComboboxLoaiBanSP();
         pnLoaiSP.add(lblLoai);
         pnLoaiSP.add(cmbLoaiSPBanHang);
         pnThongTinBanHang.add(pnLoaiSP);
@@ -885,18 +880,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
         });
     }
 
-    private void loadDataComboboxLoaiBanSP() {
-        cmbLoaiSPBanHang.removeAllItems();
-        cmbLoaiSPBanHang.addItem("0 - Chọn loại");
-        ArrayList<LoaiSP> dsl = loaiBUS.getDanhSachLoai();
-
-        for (LoaiSP loai : dsl) {
-            if (!loai.getTenLoai().equalsIgnoreCase("Nguyên liệu")) {
-                cmbLoaiSPBanHang.addItem(loai.getMaLoai() + " - " + loai.getTenLoai());
-            }
-        }
-    }
-
     private void loadDataComboboxNhanVienBan() {
 
     }
@@ -914,8 +897,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
 
             if (loaiSP.equals("0")) {
                 dssp = spBUS.getListSanPham();
-            } else {
-                dssp = spBUS.getSanPhamTheoLoai(loaiSP);
             }
         } else {
             dssp = spBUS.getListSanPham();
@@ -926,8 +907,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
             vec.add(sp.getMaSP());
             vec.add(sp.getTenSP());
             vec.add(dcf.format(sp.getDonGia()));
-            vec.add(dcf.format(sp.getSoLuong()));
-            vec.add(sp.getDonViTinh());
             vec.add(sp.getHinhAnh());
             dtmSanPhamBan.addRow(vec);
         }
@@ -940,13 +919,8 @@ public class PnQuanLyBanHangGUI extends JPanel {
             String ten = tblBanHang.getValueAt(row, 1) + "";
             String donGia = tblBanHang.getValueAt(row, 2) + "";
             String anh = tblBanHang.getValueAt(row, 5) + "";
-            int soLuong = Integer.parseInt(tblBanHang.getValueAt(row, 3) + "");
-            if (soLuong < 1) {
-                MyDialog dlg = new MyDialog("Sản phẩm đã hết hàng", MyDialog.ERROR_DIALOG);
-                return;
-            }
 
-            SpinnerNumberModel modeSpinner = new SpinnerNumberModel(1, 1, soLuong, 1);
+            SpinnerNumberModel modeSpinner = new SpinnerNumberModel(1, 1, 99, 1);
             spnSoLuongBanHang.setModel(modeSpinner);
             JFormattedTextField txtSpinner = ((JSpinner.NumberEditor) spnSoLuongBanHang.getEditor()).getTextField();
             ((NumberFormatter) txtSpinner.getFormatter()).setAllowsInvalid(false);
@@ -1029,7 +1003,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
                 tblGioHang.setValueAt(dcf.format(soLuong * donGiaSP), i, 4);
 
                 // cập nhật lại số lượng trong db
-                spBUS.capNhatSoLuongSP(key, -soLuong);
                 spBUS.docListSanPham();
                 loadDataTableSanPhamBan();
                 return;
@@ -1045,7 +1018,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
         int donGiaSP = Integer.parseInt(donGia);
         vec.add(dcf.format(soLuong * donGiaSP));
         // cập nhật lại số lượng trong db
-        spBUS.capNhatSoLuongSP(key, -soLuong);
         spBUS.docListSanPham();
         loadDataTableSanPhamBan();
         dtmGioHang.addRow(vec);
@@ -1054,9 +1026,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
     private void xuLyXoaSPGioHang() {
         int row = tblGioHang.getSelectedRow();
         if (row > -1) {
-            int ma = Integer.parseInt(tblGioHang.getValueAt(row, 0) + "");
-            int soLuong = Integer.parseInt(tblGioHang.getValueAt(row, 2) + "");
-            spBUS.capNhatSoLuongSP(ma, soLuong);
             loadDataTableSanPhamBan();
             dtmGioHang.removeRow(row);
         }
@@ -1064,9 +1033,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
 
     private void xuLyXoaSPGioHang(int row) {
         if (row > -1) {
-            int ma = Integer.parseInt(tblGioHang.getValueAt(row, 0) + "");
-            int soLuong = Integer.parseInt(tblGioHang.getValueAt(row, 2) + "");
-            spBUS.capNhatSoLuongSP(ma, soLuong);
             loadDataTableSanPhamBan();
         }
     }
@@ -1114,8 +1080,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
             vec.add(sp.getMaSP());
             vec.add(sp.getTenSP());
             vec.add(dcf.format(sp.getDonGia()));
-            vec.add(dcf.format(sp.getSoLuong()));
-            vec.add(sp.getDonViTinh());
             vec.add(sp.getHinhAnh());
             dtmSanPhamBan.addRow(vec);
         }
@@ -1209,7 +1173,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
     }
 
     private void xuLyResetData() {
-        loadDataComboboxLoaiBanSP();
         cmbLoaiSPBanHang.setSelectedIndex(0);
         loadDataComboboxNhanVienBan();
     }

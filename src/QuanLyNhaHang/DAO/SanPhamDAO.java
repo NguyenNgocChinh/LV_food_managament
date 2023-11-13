@@ -20,11 +20,8 @@ public class SanPhamDAO {
 
                 sp.setMaSP(rs.getInt(1));
                 sp.setTenSP(rs.getString(2));
-                sp.setMaLoai(rs.getInt(3));
-                sp.setSoLuong(rs.getInt(4));
-                sp.setDonViTinh(rs.getString(5));
-                sp.setHinhAnh(rs.getString(6));
-                sp.setDonGia(rs.getInt(7));
+                sp.setHinhAnh(rs.getString(3));
+                sp.setDonGia(rs.getInt(4));
 
                 dssp.add(sp);
             }
@@ -46,41 +43,11 @@ public class SanPhamDAO {
 
                 sp.setMaSP(rs.getInt(1));
                 sp.setTenSP(rs.getString(2));
-                sp.setMaLoai(rs.getInt(3));
-                sp.setSoLuong(rs.getInt(4));
-                sp.setDonViTinh(rs.getString(5));
-                sp.setHinhAnh(rs.getString(6));
-                sp.setDonGia(rs.getInt(7));
+                sp.setHinhAnh(rs.getString(3));
+                sp.setDonGia(rs.getInt(4));
 
                 return sp;
             }
-        } catch (SQLException e) {
-        }
-
-        return null;
-    }
-
-    public ArrayList<SanPham> getSanPhamTheoLoai(int maLoai) {
-        try {
-            String sql = "SELECT * FROM SanPham WHERE MaLoai=?";
-            PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
-            pre.setInt(1, maLoai);
-            ResultSet rs = pre.executeQuery();
-            ArrayList<SanPham> dssp = new ArrayList<>();
-            while (rs.next()) {
-                SanPham sp = new SanPham();
-
-                sp.setMaSP(rs.getInt(1));
-                sp.setTenSP(rs.getString(2));
-                sp.setMaLoai(rs.getInt(3));
-                sp.setSoLuong(rs.getInt(4));
-                sp.setDonViTinh(rs.getString(5));
-                sp.setHinhAnh(rs.getString(6));
-                sp.setDonGia(rs.getInt(7));
-
-                dssp.add(sp);
-            }
-            return dssp;
         } catch (SQLException e) {
         }
 
@@ -101,51 +68,14 @@ public class SanPhamDAO {
         return "";
     }
 
-    public void capNhatSoLuongSP(int ma, int soLuongMat) {
-        SanPham sp = getSanPham(ma);
-        int soLuong = sp.getSoLuong();
-        sp.setSoLuong(soLuong + soLuongMat);
-        try {
-            String sql = "UPDATE SanPham SET SoLuong=? WHERE MaSP=" + ma;
-            PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
-            pre.setInt(1, sp.getSoLuong());
-            pre.executeUpdate();
-        } catch (SQLException e) {
-        }
-
-    }
-
     public boolean themSanPham(SanPham sp) {
         try {
-            String sql = "INSERT INTO SanPham(TenSP, MaLoai, SoLuong, DonViTinh, HinhAnh, DonGia) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO SanPham(TenSP, HinhAnh, DonGia) "
+                    + "VALUES (?, ?, ?)";
             PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
             pre.setString(1, sp.getTenSP());
-            pre.setInt(2, sp.getMaLoai());
-            pre.setInt(3, sp.getSoLuong());
-            pre.setString(4, sp.getDonViTinh());
-            pre.setString(5, sp.getHinhAnh());
-            pre.setInt(6, sp.getDonGia());
-
-            pre.execute();
-            return true;
-        } catch (SQLException e) {
-        }
-        return false;
-    }
-
-    public boolean nhapSanPhamTuExcel(SanPham sp) {
-        try {
-            String sql = "DELETE * FROM SanPham; " +
-                    "INSERT INTO SanPham(TenSP, MaLoai, SoLuong, DonViTinh, HinhAnh, DonGia) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
-            pre.setString(1, sp.getTenSP());
-            pre.setInt(2, sp.getMaLoai());
-            pre.setInt(3, sp.getSoLuong());
-            pre.setString(4, sp.getDonViTinh());
-            pre.setString(5, sp.getHinhAnh());
-            pre.setInt(6, sp.getDonGia());
+            pre.setString(2, sp.getHinhAnh());
+            pre.setInt(3, sp.getDonGia());
 
             pre.execute();
             return true;
@@ -169,16 +99,13 @@ public class SanPhamDAO {
         try {
             String sql = "UPDATE SanPham SET "
                     + "TenSP=?, "
-                    + "MaLoai=?, SoLuong=?, DonViTinh=?, HinhAnh=?, DonGia=? "
+                    + "HinhAnh=?, DonGia=? "
                     + "WHERE MaSP=?";
             PreparedStatement pre = MyConnect.conn.prepareStatement(sql);
             pre.setString(1, sp.getTenSP());
-            pre.setInt(2, sp.getMaLoai());
-            pre.setInt(3, sp.getSoLuong());
-            pre.setString(4, sp.getDonViTinh());
-            pre.setString(5, sp.getHinhAnh());
-            pre.setInt(6, sp.getDonGia());
-            pre.setInt(7, sp.getMaSP());
+            pre.setString(2, sp.getHinhAnh());
+            pre.setInt(3, sp.getDonGia());
+            pre.setInt(4, sp.getMaSP());
 
             pre.execute();
             return true;

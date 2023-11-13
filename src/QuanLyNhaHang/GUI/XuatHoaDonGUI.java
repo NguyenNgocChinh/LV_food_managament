@@ -36,51 +36,16 @@ public class XuatHoaDonGUI extends JDialog {
     private int tongTien;
     private String nhanVien;
 
-    public XuatHoaDonGUI(ArrayList<Vector> dsGioHang, int tongTien, Object nhanVien) {
+    public XuatHoaDonGUI(ArrayList<Vector> dsGioHang, int tongTien) {
         this();
         this.tongTien = tongTien;
         this.dsGioHang = dsGioHang;
-        this.nhanVien = (String) nhanVien;
         DecimalFormat dcf = new DecimalFormat("###,###");
         txtTongTien.setText(dcf.format(tongTien));
     }
 
     private void customEvents() {
-        txtTenKhach.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                checkKhachMa();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                checkKhachMa();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                checkKhachMa();
-            }
-        });
-
-        txtMaGiam.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) {
-                checkKhachMa();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                checkKhachMa();
-            }
-
-            public void insertUpdate(DocumentEvent e) {
-                checkKhachMa();
-            }
-        });
-    }
-
-    private void checkKhachMa() {
-        if (!txtTenKhach.getText().equals("") && !txtMaGiam.getText().equals("")) {
-            btnThanhToan.setEnabled(true);
-        } else {
-            btnThanhToan.setEnabled(false);
-        }
+        
     }
 
     private void xuLyHienThiHoaDon() {
@@ -105,9 +70,7 @@ public class XuatHoaDonGUI extends JDialog {
                 + "}"
                 + "</style>";
         hd += "<h1 style='text-align:center;'>HOÁ ĐƠN THANH TOÁN</h1>";
-        hd += "Nhân viên: " + nhanVien + "<br/>";
         hd += "Ngày lập: " + dtf.format(now) + "<br/>";
-        hd += "Khách hàng: " + txtTenKhach.getText() + "<br/>";
         hd += "<div style='text-align:center;'>==========================================</div><br/>";
         hd += "<div style='text-align:center'>";
         hd += "<table style='max-width:100%'>";
@@ -162,7 +125,6 @@ public class XuatHoaDonGUI extends JDialog {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnThanhToan = new javax.swing.JButton();
-        btnInHoaDon = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtHoaDon = new javax.swing.JEditorPane();
         txtTenKhach = new javax.swing.JTextField();
@@ -184,7 +146,6 @@ public class XuatHoaDonGUI extends JDialog {
 
         btnThanhToan.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnThanhToan.setText("Thanh toán");
-        btnThanhToan.setEnabled(false);
         btnThanhToan.setPreferredSize(new java.awt.Dimension(128, 45));
         btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,31 +154,8 @@ public class XuatHoaDonGUI extends JDialog {
         });
         jPanel2.add(btnThanhToan);
 
-        btnInHoaDon.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnInHoaDon.setText("In hoá đơn");
-        btnInHoaDon.setEnabled(false);
-        btnInHoaDon.setPreferredSize(new java.awt.Dimension(128, 45));
-        btnInHoaDon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInHoaDonActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnInHoaDon);
-
         txtHoaDon.setEditable(false);
         jScrollPane1.setViewportView(txtHoaDon);
-
-        txtTenKhach.setEditable(false);
-        txtTenKhach.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel2.setText("Khách hàng");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("Mã giảm");
-
-        txtMaGiam.setEditable(false);
-        txtMaGiam.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         btnTimMaGiam.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnTimMaGiam.setText("...");
@@ -284,24 +222,20 @@ public class XuatHoaDonGUI extends JDialog {
         );
 
         pack();
+        
+        txtTenKhach.setVisible(false);
+        btnTimKhach.setVisible(false);
+        txtMaGiam.setVisible(false);
+        btnTimMaGiam.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
     public static boolean checkBanHang = false;
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {
         checkBanHang = false;
-        if (txtTenKhach.getText().equals("")) {
-            new MyDialog("Xin chọn khách hàng", MyDialog.ERROR_DIALOG);
-            return;
-        }
-        if (txtMaGiam.getText().equals("")) {
-            new MyDialog("Xin chọn mã giảm", MyDialog.ERROR_DIALOG);
-            return;
-        }
         xuLyHienThiHoaDon();
-        btnInHoaDon.setEnabled(true);
 
-        hoadonBUS.luuHoaDon(0, nhanVien, tongTien, "Đã thanh toán");
+        hoadonBUS.luuHoaDon(tongTien, "Đã thanh toán");
 
         for (Vector vec : dsGioHang) {
             String maSP = vec.get(0) + "";
@@ -311,24 +245,10 @@ public class XuatHoaDonGUI extends JDialog {
             ctHoaDonBUS.addCTHoaDon(maSP, soLuong, donGia, thanhTien);
         }
         btnThanhToan.setEnabled(false);
-        btnTimMaGiam.setEnabled(false);
-        btnTimKhach.setEnabled(false);
         checkBanHang = true;
     }
 
-    private void btnInHoaDonActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            if (!txtHoaDon.getText().equals("")) {
-                txtHoaDon.print();
-                this.dispose();
-            }
-        } catch (PrinterException ex) {
-        }
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnInHoaDon;
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnTimKhach;
     private javax.swing.JButton btnTimMaGiam;

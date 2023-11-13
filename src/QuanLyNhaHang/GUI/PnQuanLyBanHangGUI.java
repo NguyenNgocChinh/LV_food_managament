@@ -39,7 +39,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
     DefaultTableModel dtmSanPhamBan, dtmGioHang;
     JTextField txtMaSPBanHang, txtTenSPBanHang, txtDonGiaBanHang;
     JSpinner spnSoLuongBanHang;
-    JComboBox<String> cmbLoaiSPBanHang, cmbNhanVienBan;
     JLabel btnThemVaoGio, lblAnhSP, btnXoaSPGioHang, btnXuatHoaDonSP;
 
     JTextField txtMaHD, txtNgayLap, txtMaKH, txtMaNV, txtTongTien, txtGhiChu, txtMaHDCT, txtMaSPCT, txtSoLuongCT, txtDonGiaCT, txtThanhTienCT;
@@ -47,7 +46,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
     JList<String> listHoaDon;
     MyTable tblCTHoaDon;
     DefaultTableModel dtmCTHoaDon;
-    JButton btnReset, btnResetCTHoaDon, btnResetHoaDon;
+    JButton btnResetCTHoaDon, btnResetHoaDon;
 
     public PnQuanLyBanHangGUI() {
         changLNF("Windows");
@@ -86,17 +85,17 @@ public class PnQuanLyBanHangGUI extends JPanel {
         lblTabbedBanHang.setForeground(Color.white);
         lblTabbedBanHang.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        lblTabbedHoaDon = new JLabel("Hoá đơn");
-        lblTabbedHoaDon.setHorizontalTextPosition(JLabel.CENTER);
-        lblTabbedHoaDon.setVerticalTextPosition(JLabel.CENTER);
-        lblTabbedHoaDon.setIcon(tabbedDefault);
-        lblTabbedHoaDon.setBounds(143, 2, 140, 37);
-        lblTabbedHoaDon.setFont(font);
-        lblTabbedHoaDon.setForeground(Color.white);
-        lblTabbedHoaDon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+//        lblTabbedHoaDon = new JLabel("Hoá đơn");
+//        lblTabbedHoaDon.setHorizontalTextPosition(JLabel.CENTER);
+//        lblTabbedHoaDon.setVerticalTextPosition(JLabel.CENTER);
+//        lblTabbedHoaDon.setIcon(tabbedDefault);
+//        lblTabbedHoaDon.setBounds(143, 2, 140, 37);
+//        lblTabbedHoaDon.setFont(font);
+//        lblTabbedHoaDon.setForeground(Color.white);
+//        lblTabbedHoaDon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         pnTop.add(lblTabbedBanHang);
-        pnTop.add(lblTabbedHoaDon);
+//        pnTop.add(lblTabbedHoaDon);
         //</editor-fold>
         this.add(pnTop, BorderLayout.NORTH);
         /*
@@ -112,11 +111,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
         JPanel pnTitleBanHang = new TransparentPanel();
         JLabel lblTitleBanHang = new JLabel("Danh sách sản phẩm");
         lblTitleBanHang.setFont(new Font("Arial", Font.BOLD, 28));
-        btnReset = new JButton(new ImageIcon("image/Refresh-icon.png"));
-        btnReset.setFocusPainted(false);
-        btnReset.setPreferredSize(new Dimension(40, 40));
         pnTitleBanHang.add(lblTitleBanHang);
-        pnTitleBanHang.add(btnReset);
         pnTableBanHang.add(pnTitleBanHang, BorderLayout.NORTH);
 
         dtmSanPhamBan = new DefaultTableModel();
@@ -160,6 +155,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
         tblGioHang = new MyTable(dtmGioHang);
 
         tblGioHang.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        tblGioHang.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
         tblGioHang.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
         tblGioHang.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
         tblGioHang.getColumnModel().getColumn(4).setCellRenderer(centerRenderer);
@@ -185,15 +181,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
         lblTitleThongTin.setFont(new Font("Arial", Font.BOLD, 28));
         pnTitleThongTin.add(lblTitleThongTin);
         pnThongTinBanHang.add(pnTitleThongTin);
-
-        JPanel pnLoaiSP = new TransparentPanel();
-        JLabel lblLoai = new JLabel("Loại SP");
-        lblLoai.setFont(font);
-        cmbLoaiSPBanHang = new JComboBox<>();
-        cmbLoaiSPBanHang.setFont(font);
-        pnLoaiSP.add(lblLoai);
-        pnLoaiSP.add(cmbLoaiSPBanHang);
-        pnThongTinBanHang.add(pnLoaiSP);
 
         JPanel pnMaSP = new TransparentPanel();
         JLabel lblMa = new JLabel("Mã SP");
@@ -239,31 +226,17 @@ public class PnQuanLyBanHangGUI extends JPanel {
         pnSoLuongSP.add(spnSoLuongBanHang);
         pnThongTinBanHang.add(pnSoLuongSP);
 
-        JPanel pnNhanVienBan = new TransparentPanel();
-        JLabel lblNhanVien = new JLabel("Nhân Viên");
-        lblNhanVien.setFont(font);
-        lblLoai.setFont(font);
-        cmbNhanVienBan = new JComboBox<>();
-        cmbNhanVienBan.setFont(font);
-        loadDataComboboxNhanVienBan();
-        pnNhanVienBan.add(lblNhanVien);
-        pnNhanVienBan.add(cmbNhanVienBan);
-        pnThongTinBanHang.add(pnNhanVienBan);
-
         JPanel pnButtonBan = new TransparentPanel();
         btnThemVaoGio = new JLabel("Thêm vào giỏ");
         pnButtonBan.add(btnThemVaoGio);
         pnThongTinBanHang.add(pnButtonBan);
-
-        cmbLoaiSPBanHang.setPreferredSize(txtMaSPBanHang.getPreferredSize());
-        Dimension sizeLabel = lblNhanVien.getPreferredSize();
-        lblLoai.setPreferredSize(sizeLabel);
+        
+        Dimension sizeLabel = btnThemVaoGio.getPreferredSize();
         lblMa.setPreferredSize(sizeLabel);
         lblTen.setPreferredSize(sizeLabel);
         lblDonGia.setPreferredSize(sizeLabel);
         lblSoLuong.setPreferredSize(sizeLabel);
         spnSoLuongBanHang.setPreferredSize(txtMaSPBanHang.getPreferredSize());
-        cmbNhanVienBan.setPreferredSize(txtMaSPBanHang.getPreferredSize());
 
         txtMaSPBanHang.setEditable(false);
         txtDonGiaBanHang.setEditable(false);
@@ -595,22 +568,13 @@ public class PnQuanLyBanHangGUI extends JPanel {
         loadDataTableSanPhamBan();
         txtTenSPBanHang.requestFocus();
         lblAnhSP.setIcon(getAnhSP(""));
-
-        cmbNhanVienBan.setEnabled(false);
     }
 
     private void addEventsBanHang() {
-        btnReset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                xuLyResetData();
-            }
-        });
-
         lblTabbedBanHang.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                lblTabbedHoaDon.setIcon(tabbedDefault);
+//                lblTabbedHoaDon.setIcon(tabbedDefault);
                 lblTabbedBanHang.setIcon(tabbedSelected);
                 cardBanHangGroup.show(pnCardTabBanHang, "1");
             }
@@ -632,30 +596,30 @@ public class PnQuanLyBanHangGUI extends JPanel {
             }
         });
 
-        lblTabbedHoaDon.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                lblTabbedHoaDon.setIcon(tabbedSelected);
-                lblTabbedBanHang.setIcon(tabbedDefault);
-                cardBanHangGroup.show(pnCardTabBanHang, "2");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-        });
+//        lblTabbedHoaDon.addMouseListener(new MouseListener() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                lblTabbedHoaDon.setIcon(tabbedSelected);
+//                lblTabbedBanHang.setIcon(tabbedDefault);
+//                cardBanHangGroup.show(pnCardTabBanHang, "2");
+//            }
+//
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//            }
+//
+//            @Override
+//            public void mouseReleased(MouseEvent e) {
+//            }
+//
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//            }
+//
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//            }
+//        });
 
         tblBanHang.addMouseListener(new MouseListener() {
             @Override
@@ -773,13 +737,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
             }
         });
 
-        cmbLoaiSPBanHang.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadDataTableSanPhamBan();
-            }
-        });
-
         txtTenSPBanHang.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -887,17 +844,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
         dtmSanPhamBan.setRowCount(0);
         ArrayList<SanPham> dssp = null;
 
-        if (cmbLoaiSPBanHang.getItemCount() > 0) {
-            String loai = cmbLoaiSPBanHang.getSelectedItem() + "";
-            String loaiArr[] = loai.split("-");
-            String loaiSP = loaiArr[0].trim();
-
-            if (loaiSP.equals("0")) {
-                dssp = spBUS.getListSanPham();
-            }
-        } else {
-            dssp = spBUS.getListSanPham();
-        }
+         dssp = spBUS.getListSanPham();
 
         for (SanPham sp : dssp) {
             Vector vec = new Vector();
@@ -915,7 +862,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
             String ma = tblBanHang.getValueAt(row, 0) + "";
             String ten = tblBanHang.getValueAt(row, 1) + "";
             String donGia = tblBanHang.getValueAt(row, 2) + "";
-            String anh = tblBanHang.getValueAt(row, 5) + "";
+            String anh = tblBanHang.getValueAt(row, 3) + "";
 
             SpinnerNumberModel modeSpinner = new SpinnerNumberModel(1, 1, 99, 1);
             spnSoLuongBanHang.setModel(modeSpinner);
@@ -973,12 +920,7 @@ public class PnQuanLyBanHangGUI extends JPanel {
         String ten = txtTenSPBanHang.getText();
         String donGia = txtDonGiaBanHang.getText();
         int soLuong = Integer.parseInt(spnSoLuongBanHang.getValue() + "");
-        int soLuongConLai = Integer.parseInt(tblBanHang.getValueAt(tblBanHang.getSelectedRow(), 3) + "");
-
-        if (soLuong > soLuongConLai || soLuongConLai <= 0) {
-            new MyDialog("Sản phẩm đã hết hàng", MyDialog.ERROR_DIALOG);
-            return;
-        }
+        int soLuongConLai = 999999999;
 
         txtMaSPBanHang.setText("");
         txtTenSPBanHang.setText("");
@@ -1050,11 +992,8 @@ public class PnQuanLyBanHangGUI extends JPanel {
             dsGioHang.add(vec);
         }
 
-        XuatHoaDonGUI hoaDonUI = new XuatHoaDonGUI(dsGioHang, tongTien, cmbNhanVienBan.getSelectedItem());
+        XuatHoaDonGUI hoaDonUI = new XuatHoaDonGUI(dsGioHang, tongTien);
         hoaDonUI.setVisible(true);
-        if (hoaDonUI.checkBanHang) {
-            dtmGioHang.setRowCount(0);
-        }
     }
 
     private void xuLyClickTblGioHang() {
@@ -1168,12 +1107,6 @@ public class PnQuanLyBanHangGUI extends JPanel {
             txtThanhTienCT.setText(thanhTien);
         }
     }
-
-    private void xuLyResetData() {
-        cmbLoaiSPBanHang.setSelectedIndex(0);
-        loadDataComboboxNhanVienBan();
-    }
-
 
     private void xuLyTimTheoKhoangNgay() {
         ArrayList<HoaDon> listHoaDon = hoaDonBUS.getListHoaDonTheoNgay(txtMinNgayLap.getText(), txtMaxNgayLap.getText());

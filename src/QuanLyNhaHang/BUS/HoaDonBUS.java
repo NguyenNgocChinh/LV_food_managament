@@ -18,12 +18,8 @@ public class HoaDonBUS {
         return listHoaDon;
     }
 
-    public void luuHoaDon(int maKH, String nhanVien, int tongTien, String ghiChu) {
+    public void luuHoaDon(int tongTien, String ghiChu) {
         HoaDon hd = new HoaDon();
-        String[] arrNV = nhanVien.split(" - ");
-        int maNV = Integer.parseInt(arrNV[0]);
-        hd.setMaNV(maNV);
-        hd.setMaKH(maKH);
         hd.setGhiChu(ghiChu);
         hd.setTongTien(tongTien);
 

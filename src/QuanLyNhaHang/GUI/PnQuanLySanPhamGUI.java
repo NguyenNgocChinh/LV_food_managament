@@ -24,7 +24,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,8 +46,7 @@ public class PnQuanLySanPhamGUI extends JPanel {
     final Color colorPanel = new Color(247, 247, 247);
     MyTable tblSanPham;
     DefaultTableModel dtmSanPham;
-    JTextField txtMa, txtTen, txtsoLuong, txtdonViTinh, txtdonGia, txtTimKiem;
-    JComboBox<String> cmbLoai;
+    JTextField txtMa, txtTen, txtdonGia;
     JButton btnThem, btnSua, btnXoa, btnChonAnh, btnReset;
     JLabel lblAnhSP;
 

@@ -1,0 +1,4 @@
+localhost
+food2
+root
+password
